@@ -15,12 +15,12 @@ function Home() {
   
     return (
       <Grid
-        alignItems="center"
+        alignItems={isWide ? "center" : "flex-end"}
         display="flex"
         height="100%"
-        margin={isWide ? undefined : "0 auto"}
+        padding="20px"
         position={isWide ? undefined : "absolute"}
-        size={isWide ? 4 : 12}
+        size={isWide ? 5 : 12}
       >
         <HomeSummary />
       </Grid>

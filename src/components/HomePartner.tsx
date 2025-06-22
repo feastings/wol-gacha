@@ -13,17 +13,27 @@ function getBackgroundImage() {
 };
 
 function getStyle(displayAs: DisplayType) {
+  const gradientY = 'linear-gradient(\
+    to top, transparent 0%, transparent 10%, black 60%, black\
+  )';
+
   const style: SxProps<Theme> = {
     backgroundImage: `url('${getBackgroundImage()}')`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
     flexGrow: 1,
+    WebkitMaskImage: gradientY,
+    maskImage: gradientY,
   };
 
   if (displayAs === 'side') {
-    style.backgroundPosition = 'left';
-    style.WebkitMaskImage = 'linear-gradient(to right, transparent 0%, black 50%, black 95%, transparent)';
-    style.maskImage = 'linear-gradient(to right, transparent 0%, black 50%, black 95%, transparent)';
+    const gradientX = 'linear-gradient(\
+      to right, transparent 0%, black 50%, black 90%, transparent\
+    )';
+    style.WebkitMaskImage = gradientX;
+    style.maskImage = gradientX;
+    style.marginLeft = '-8dvw'
   }
 
   return style;

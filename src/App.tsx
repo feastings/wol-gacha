@@ -18,7 +18,7 @@ function App() {
       <CssBaseline />
       <Container
         disableGutters
-        sx={{ display: 'flex', minHeight: '100vh' }}
+        sx={{ display: 'flex', minHeight: '100dvh' }}
       >
         <Home />
       </Container>
