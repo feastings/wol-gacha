@@ -1,7 +1,18 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets": ["src/assets"],
+      "@components/*": ["src/components/*"],
+      "@views/*": ["src/views/*"]
+    }
+  },
+  "exclude": ["node_modules"],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "types": ["node"]
 }
