@@ -38,10 +38,11 @@ function Home() {
   return (
     <Grid
       container
+      direction="row-reverse"
       flexGrow={1}
     >
-      {renderSummary()}
       {renderPartner()}
+      {renderSummary()}
     </Grid>
   );
 };

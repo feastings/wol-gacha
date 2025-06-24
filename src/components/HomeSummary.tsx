@@ -1,20 +1,53 @@
+import { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import UserProfileDialog from '@components/UserProfileDialog';
+import UserContext from '@context/UserContext';
+import UserIcon from '@assets/icons/UserIcon';
 
 function HomeSummary() {
+  const nickname = useContext(UserContext)?.nickname;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function renderNickname() {
+    return [
+      <h1>{nickname}</h1>,
+      <IconButton
+        aria-label="edit-profile"
+        sx={{ borderRadius: 3 }}
+        onClick={() => setIsModalOpen(true)}
+      >
+        <UserIcon />
+      </IconButton>
+    ]
+  };
+
   return (
-    <Paper
-      elevation={1}
-      sx={{ width: '100%' }}
-    >
-      <Container sx={{ paddingY: 3 }}>
-        <h1>feasts</h1>
-        <Button disabled variant="outlined" sx={{ width: '100%' }}>
-          Next pull in XX:XX:XX...
-        </Button>
-      </Container>
-    </Paper>
+    <>
+      <UserProfileDialog
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <Paper elevation={5} sx={{ borderRadius: 3, width: '100%' }}>
+        <Container sx={{ paddingY: 3 }}>
+          <Stack spacing={2}>
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={2}
+            >
+              {renderNickname()}
+            </Stack>
+            <Button disabled variant="outlined" sx={{ width: '100%' }}>
+              Next pull in XX:XX:XX...
+            </Button>
+          </Stack>
+        </Container>
+      </Paper>
+    </>
   );
 };
 
