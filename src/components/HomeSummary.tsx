@@ -1,22 +1,25 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
+
 import UserProfileDialog from '@components/UserProfileDialog';
-import UserContext from '@context/UserContext';
+import { STATE_INIT, useUserContext } from '@context/UserContext';
 import userIcon from '/user.svg';
 
 function HomeSummary() {
-  const nickname = useContext(UserContext)?.nickname;
+  const userContext = useUserContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function renderNickname() {
     return [
-      <h1>{nickname}</h1>,
+      <h1 key="nickname">{userContext.user?.nickname}</h1>,
       <IconButton
-        aria-label="edit-profile"
+        aria-label="edit-profile-button"
+        key="edit-profile-button"
         sx={{ borderRadius: 3 }}
         onClick={() => setIsModalOpen(true)}
       >
@@ -39,11 +42,13 @@ function HomeSummary() {
               direction="row"
               spacing={2}
             >
-              {renderNickname()}
+              {userContext.status === STATE_INIT ? <Skeleton width="100%" /> : renderNickname()}
             </Stack>
-            <Button disabled variant="outlined" sx={{ width: '100%' }}>
-              Next pull in XX:XX:XX...
-            </Button>
+            {userContext.status === STATE_INIT ? <Skeleton /> : (
+              <Button disabled variant="outlined" sx={{ width: '100%' }}>
+                Next pull in XX:XX:XX...
+              </Button>
+            )}
           </Stack>
         </Container>
       </Paper>

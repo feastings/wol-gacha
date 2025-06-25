@@ -1,12 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import HomePartner from '@/components/HomePartner';
-import HomeSummary from '@/components/HomeSummary';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { fetchUserData } from '@api/store';
+import HomePartner from '@components/HomePartner';
+import HomeSummary from '@components/HomeSummary';
+import { ACTION_FETCH_SUCCESS, STATE_INIT, useUserContext, useUserDispatch } from '@context/UserContext';
 
 function Home() {
+  const userContext = useUserContext();
+  const userDispatch = useUserDispatch();
   const isWide = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const [isSummaryVisible] = useState(true);
+
+  async function initData() {
+    const res = await fetchUserData();
+    userDispatch({ type: ACTION_FETCH_SUCCESS, payload: res })
+  }
+
+  useEffect(() => {
+    if (userContext.status === STATE_INIT) {
+      initData();
+    }
+  });
 
   function renderSummary() {
     if (!isSummaryVisible) {

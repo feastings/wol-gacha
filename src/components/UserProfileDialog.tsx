@@ -1,12 +1,21 @@
-import { useContext, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import UserContext, { type UserData } from '@/context/UserContext';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+
+import { updateUserData } from '@api/store';
+import { ACTION_ADD_ALERT, SUCCESS, useAlertDispatch } from '@context/AlertContext';
+import {
+  ACTION_UPDATE,
+  ACTION_UPDATE_SUCCESS,
+  STATE_LOADING,
+  useUserContext,
+  useUserDispatch,
+  type UserData
+} from '@context/UserContext';
 
 type UserProfileDialogProps = {
   open: boolean,
@@ -18,26 +27,29 @@ function UserProfileDialog({
   open,
   onClose,
 }: UserProfileDialogProps) {
-  const nickname = useContext(UserContext)?.nickname;
-  const [isSaving, setIsSaving] = useState(false);
+  const alertDispatch = useAlertDispatch();
+  const userContext = useUserContext();
+  const userDispatch = useUserDispatch();
 
   async function handleSave(userData: UserData) {
-    // TODO: write to localstorage for now w/ simulated load time
-    // push feedback alerts also
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-    await delay(3000);
-    if (userData?.nickname) {
-      localStorage.setItem('nickname', userData.nickname);
-    }
+    userDispatch({ type: ACTION_UPDATE });
+    await updateUserData(userData);
+    userDispatch({ type: ACTION_UPDATE_SUCCESS, payload: userData });
+    alertDispatch({
+      type: ACTION_ADD_ALERT,
+      payload: {
+        id: 'update-user-profile',
+        type: SUCCESS,
+        message: 'User profile updated!'
+      }
+    });
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsSaving(true);
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries()) as UserData;
     await handleSave(formJson);
-    setIsSaving(false);
     onClose();
   };
 
@@ -56,7 +68,7 @@ function UserProfileDialog({
       <DialogContent>
         <Container>
           <TextField
-            defaultValue={nickname}
+            defaultValue={userContext.user?.nickname}
             label="nickname"
             margin="dense"
             name="nickname"
@@ -68,7 +80,7 @@ function UserProfileDialog({
         <Button onClick={onClose}>
           Cancel
         </Button>
-        <Button loading={isSaving} type="submit" variant="contained">
+        <Button loading={userContext.status === STATE_LOADING} type="submit" variant="contained">
           Save
         </Button>
       </DialogActions>

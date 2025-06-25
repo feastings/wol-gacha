@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
+import { STATE_INIT, useUserContext } from '@context/UserContext';
 import type { SxProps, Theme } from '@mui/material/styles';
-import { useContext } from 'react';
-import UserContext from '@/context/UserContext';
 
 type DisplayType = 'full' | 'side';
 export interface HomePartnerProps {
@@ -11,11 +11,11 @@ export interface HomePartnerProps {
 function HomePartner({
   displayAs,
 }: HomePartnerProps) {
-  const characterId = useContext(UserContext)?.partnerCharacterId;
+  const userContext = useUserContext();
 
   // placeholder for now
   function getBackgroundImage() {
-    return `./test-sprite-${characterId}.png`;
+    return `./test-sprite-${userContext.user?.partnerCharacterId}.png`;
   };
 
   function getStyle() {
@@ -45,9 +45,7 @@ function HomePartner({
     return style;
   };
 
-  return (
-    <Box sx={getStyle()} />
-  );
+  return userContext.status === STATE_INIT ? <Skeleton width="100%" /> : <Box sx={getStyle()} />
 };
 
 export default HomePartner;
