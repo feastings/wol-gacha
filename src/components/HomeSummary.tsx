@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import UserProfileDialog from '@components/UserProfileDialog';
 import UserContext from '@context/UserContext';
-import UserIcon from '@assets/icons/UserIcon';
+import userIcon from '/user.svg';
 
 function HomeSummary() {
   const nickname = useContext(UserContext)?.nickname;
@@ -20,7 +20,7 @@ function HomeSummary() {
         sx={{ borderRadius: 3 }}
         onClick={() => setIsModalOpen(true)}
       >
-        <UserIcon />
+        <img src={userIcon} />
       </IconButton>
     ]
   };

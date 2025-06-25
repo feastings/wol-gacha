@@ -15,7 +15,7 @@ function HomePartner({
 
   // placeholder for now
   function getBackgroundImage() {
-    return `/wol-gacha/src/assets/test-sprite-${characterId}.png`;
+    return `./test-sprite-${characterId}.png`;
   };
 
   function getStyle() {
@@ -24,7 +24,7 @@ function HomePartner({
     )';
 
     const style: SxProps<Theme> = {
-      backgroundImage: `url('${getBackgroundImage()}')`,
+      backgroundImage: `url("${getBackgroundImage()}")`,
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
