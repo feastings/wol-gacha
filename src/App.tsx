@@ -2,6 +2,7 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
 import Home from '@views/Home';
 
@@ -24,7 +25,9 @@ function App() {
         sx={{ display: 'flex', minHeight: '100dvh' }}
       >
         <UserProvider>
-          <Home />
+          <AlertProvider>
+            <Home />
+          </AlertProvider>
         </UserProvider>
       </Container>
     </ThemeProvider>

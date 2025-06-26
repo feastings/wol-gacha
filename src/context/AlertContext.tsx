@@ -4,7 +4,8 @@ import {
   type ReactNode
 } from 'react';
 import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar, { type SnackbarOrigin } from '@mui/material/Snackbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export const SUCCESS = 'success';
 type AlertType = 'success';
@@ -36,13 +37,18 @@ type AlertProviderProps = {
 };
 
 export function AlertProvider({ children }: AlertProviderProps) {
+  const isWide = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const [alertState, dispatch] = useReducer(alertReducer, initialState);
+
+  const bottomLeftAnchor: SnackbarOrigin = { vertical: 'bottom', horizontal: 'left' };
+  const topAnchor: SnackbarOrigin = { vertical: 'top', horizontal: 'center' };
 
   return (
     <AlertContext value={alertState}>
       <AlertDispatchContext value={dispatch}>
         {alertState.alerts.map((alert: AppAlert) => (
           <Snackbar
+            anchorOrigin={isWide ? bottomLeftAnchor : topAnchor}
             autoHideDuration={6000}
             key={alert.id}
             open
