@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { fetchUserData } from '@api/store';
+import AppNav from '@components/AppNav';
 import HomePartner from '@components/HomePartner';
 import HomeSummary from '@components/HomeSummary';
 import { ACTION_FETCH_SUCCESS, STATE_INIT, useUserContext, useUserDispatch } from '@context/UserContext';
@@ -32,33 +35,36 @@ function Home() {
       <Grid
         alignItems={isWide ? "center" : "flex-end"}
         display="flex"
-        height="100%"
         padding="20px"
-        position={isWide ? undefined : "absolute"}
         size={isWide ? 5 : 12}
       >
-        <HomeSummary />
+        <Stack spacing={2} width="100%">
+          <AppNav />
+          <HomeSummary />
+        </Stack>
       </Grid>
     );
   }
 
   function renderPartner() {
     return (
-      <Grid display="flex" size={isWide ? "grow" : 12}>
+      <Grid display="flex" size="grow">
         <HomePartner displayAs={isSummaryVisible && isWide ? 'side' : 'full'} />
       </Grid>
     );
   }
 
   return (
-    <Grid
-      container
-      direction="row-reverse"
-      flexGrow={1}
-    >
-      {renderPartner()}
-      {renderSummary()}
-    </Grid>
+    <Container disableGutters sx={{ display: 'flex', height: '100%' }}>
+      <Grid
+        container
+        direction={isWide ? "row-reverse" : "column"}
+        flexGrow={1}
+      >
+        {renderPartner()}
+        {renderSummary()}
+      </Grid>
+    </Container>
   );
 };
 

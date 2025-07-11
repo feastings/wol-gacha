@@ -20,7 +20,7 @@ function HomePartner({
 
   function getStyle() {
     const gradientY = 'linear-gradient(\
-      to top, transparent 0%, transparent 10%, black 60%, black\
+      to top, transparent 0%, transparent 5%, black 60%, black\
     )';
 
     const style: SxProps<Theme> = {
@@ -29,9 +29,13 @@ function HomePartner({
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       flexGrow: 1,
-      WebkitMaskImage: gradientY,
-      maskImage: gradientY,
     };
+
+    if (displayAs === 'full') {
+      style.WebkitMaskImage = gradientY;
+      style.maskImage = gradientY;
+      style.marginBottom = '-8dvh';
+    }
 
     if (displayAs === 'side') {
       const gradientX = 'linear-gradient(\
@@ -39,7 +43,7 @@ function HomePartner({
       )';
       style.WebkitMaskImage = gradientX;
       style.maskImage = gradientX;
-      style.marginLeft = '-8dvw'
+      style.marginLeft = '-8dvw';
     }
 
     return style;

@@ -1,7 +1,8 @@
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import AppFooter from '@components/AppFooter';
 import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
 import Home from '@views/Home';
@@ -20,16 +21,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container
-        disableGutters
-        sx={{ display: 'flex', minHeight: '100dvh' }}
-      >
         <UserProvider>
           <AlertProvider>
-            <Home />
+            <Grid container direction="column" height="100dvh">
+              <Grid size="grow">
+                <Home />
+              </Grid>
+              <Grid>
+                <AppFooter />
+              </Grid>
+            </Grid>
           </AlertProvider>
         </UserProvider>
-      </Container>
     </ThemeProvider>
   );
 };
