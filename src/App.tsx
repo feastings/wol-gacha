@@ -2,7 +2,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import AppFooter from '@components/AppFooter';
+import AppFooter from '@components/footer/AppFooter';
 import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
 import Home from '@views/Home';
@@ -13,7 +13,18 @@ const theme = createTheme({
     fontFamily: [
       'Roboto Mono',
       'Roboto'
-    ].join(',')
+    ].join(','),
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 500
+    },
+    subtitle1: {
+      fontSize: '0.75rem',
+      fontWeight: 500
+    },
+    body1: {
+      fontSize: '0.75rem'
+    }
   }
 });
 
