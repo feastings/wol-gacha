@@ -5,7 +5,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppFooter from '@components/footer/AppFooter';
 import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
-import Home from '@views/Home';
+
+import ViewContainer from './ViewContainer';
 
 // TODO: cuter theme :(
 const theme = createTheme({
@@ -36,7 +37,7 @@ function App() {
           <AlertProvider>
             <Grid container direction="column" height="100dvh">
               <Grid size="grow">
-                <Home />
+                <ViewContainer />
               </Grid>
               <Grid>
                 <AppFooter />
