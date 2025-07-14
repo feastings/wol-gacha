@@ -29,24 +29,31 @@ const InfoResources: React.FC = () => {
     <>
       <Typography variant="h2">Resources</Typography>
       <table width="100%">
-        {CREDITS.map((credit: Credit) => (
-          <tr key={credit.creditFor}>
-            <td valign="top">
-              <Typography variant="subtitle1">
-                {credit.creditFor}
-              </Typography>
-            </td>
-            <td>
-              <Stack direction="column">
-                {credit.creditToList.map((creditTo: CreditTo) => creditTo.link ? (
-                  <Link href={creditTo.link} target="_blank" rel="noopener">
-                    <Typography>{creditTo.name}</Typography>
-                  </Link>
-                ) : <Typography>{creditTo.name}</Typography>)}
-              </Stack>
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {CREDITS.map((credit: Credit) => (
+            <tr key={credit.creditFor}>
+              <td valign="top">
+                <Typography variant="subtitle1">
+                  {credit.creditFor}
+                </Typography>
+              </td>
+              <td>
+                <Stack direction="column">
+                  {credit.creditToList.map((creditTo: CreditTo) => creditTo.link ? (
+                    <Link
+                      href={creditTo.link}
+                      key={creditTo.name}
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      <Typography>{creditTo.name}</Typography>
+                    </Link>
+                  ) : <Typography>{creditTo.name}</Typography>)}
+                </Stack>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </>
   );

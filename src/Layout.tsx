@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { fetchUserData } from '@api/store';
 import AppNav from '@components/AppNav';
 import HomePartner from '@components/HomePartner';
-import HomeSummary from '@components/HomeSummary';
-import { ACTION_FETCH_SUCCESS, STATE_INIT, useUserContext, useUserDispatch } from '@context/UserContext';
+import {
+  ACTION_FETCH_SUCCESS,
+  STATE_INIT,
+  useUserContext,
+  useUserDispatch
+} from '@context/UserContext';
 
-function Home() {
+const Layout: React.FC = () => {
   const userContext = useUserContext();
   const userDispatch = useUserDispatch();
   const isWide = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-  const [isSummaryVisible] = useState(true);
 
   async function initData() {
     const res = await fetchUserData();
@@ -26,11 +31,15 @@ function Home() {
     }
   });
 
-  function renderSummary() {
-    if (!isSummaryVisible) {
-      return null;
-    }
-  
+  function renderPartner() {
+    return (
+      <Grid display="flex" size="grow">
+        <HomePartner displayAs={isWide ? 'side' : 'full'} />
+      </Grid>
+    );
+  }
+
+  function renderContent() {
     return (
       <Grid
         alignItems={isWide ? "center" : "flex-end"}
@@ -40,16 +49,8 @@ function Home() {
       >
         <Stack spacing={2} width="100%">
           <AppNav />
-          <HomeSummary />
+          <Outlet />
         </Stack>
-      </Grid>
-    );
-  }
-
-  function renderPartner() {
-    return (
-      <Grid display="flex" size="grow">
-        <HomePartner displayAs={isSummaryVisible && isWide ? 'side' : 'full'} />
       </Grid>
     );
   }
@@ -62,10 +63,10 @@ function Home() {
         flexGrow={1}
       >
         {renderPartner()}
-        {renderSummary()}
+        {renderContent()}
       </Grid>
     </Container>
-  );
+  )
 };
 
-export default Home;
+export default Layout;

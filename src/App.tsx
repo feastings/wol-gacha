@@ -1,3 +1,4 @@
+import { Route, Routes } from 'react-router';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -5,7 +6,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppFooter from '@components/footer/AppFooter';
 import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
-import Home from '@views/Home';
+
+import Layout from './Layout';
+import HomeSummary from './components/HomeSummary';
 
 // TODO: cuter theme :(
 const theme = createTheme({
@@ -36,7 +39,11 @@ function App() {
           <AlertProvider>
             <Grid container direction="column" height="100dvh">
               <Grid size="grow">
-                <Home />
+                <Routes>
+                  <Route path="*" element={<Layout />}>
+                    <Route index element={<HomeSummary />} />
+                  </Route>
+                </Routes>
               </Grid>
               <Grid>
                 <AppFooter />
