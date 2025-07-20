@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +8,7 @@ import UserProfileDialog from '@components/UserProfileDialog';
 import { STATE_INIT, useUserContext } from '@context/UserContext';
 import userIcon from '/user.svg';
 
-function HomeSummary() {
+function Home() {
   const userContext = useUserContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,26 +32,22 @@ function HomeSummary() {
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <Paper elevation={5} sx={{ borderRadius: 3, width: '100%' }}>
-        <Container sx={{ paddingY: 3 }}>
-          <Stack spacing={2}>
-            <Stack
-              alignItems="center"
-              direction="row"
-              spacing={2}
-            >
-              {userContext.status === STATE_INIT ? <Skeleton width="100%" /> : renderNickname()}
-            </Stack>
-            {userContext.status === STATE_INIT ? <Skeleton /> : (
-              <Button disabled variant="outlined" sx={{ width: '100%' }}>
-                Next pull in XX:XX:XX...
-              </Button>
-            )}
-          </Stack>
-        </Container>
-      </Paper>
+      <Stack spacing={2} width="100%">
+        <Stack
+          alignItems="center"
+          direction="row"
+          spacing={2}
+        >
+          {userContext.status === STATE_INIT ? <Skeleton width="100%" /> : renderNickname()}
+        </Stack>
+        {userContext.status === STATE_INIT ? <Skeleton /> : (
+          <Button disabled variant="outlined" sx={{ width: '100%' }}>
+            Next pull in XX:XX:XX...
+          </Button>
+        )}
+      </Stack>
     </>
   );
 };
 
-export default HomeSummary;
+export default Home;

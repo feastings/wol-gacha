@@ -6,9 +6,10 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppFooter from '@components/footer/AppFooter';
 import { AlertProvider } from '@context/AlertContext.tsx'
 import { UserProvider } from '@context/UserContext';
+import Home from '@views/Home';
+import Gallery from '@views/Gallery';
 
 import Layout from './Layout';
-import HomeSummary from './components/HomeSummary';
 
 // TODO: cuter theme :(
 const theme = createTheme({
@@ -37,11 +38,12 @@ function App() {
       <CssBaseline />
         <UserProvider>
           <AlertProvider>
-            <Grid container direction="column" height="100dvh">
-              <Grid size="grow">
+            <Grid container direction="column" height="100dvh" wrap="nowrap">
+              <Grid minHeight={0} size="grow">
                 <Routes>
                   <Route path="*" element={<Layout />}>
-                    <Route index element={<HomeSummary />} />
+                    <Route index element={<Home />} />
+                    <Route path="gallery" element={<Gallery />} />
                   </Route>
                 </Routes>
               </Grid>

@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { fetchUserData } from '@api/store';
 import AppNav from '@components/AppNav';
-import HomePartner from '@components/HomePartner';
+import AppPartner from '@components/AppPartner';
 import {
   ACTION_FETCH_SUCCESS,
   STATE_INIT,
@@ -18,7 +19,7 @@ import {
 const Layout: React.FC = () => {
   const userContext = useUserContext();
   const userDispatch = useUserDispatch();
-  const isWide = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+  const isLandscape = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
   async function initData() {
     const res = await fetchUserData();
@@ -33,8 +34,8 @@ const Layout: React.FC = () => {
 
   function renderPartner() {
     return (
-      <Grid display="flex" size="grow">
-        <HomePartner displayAs={isWide ? 'side' : 'full'} />
+      <Grid display="flex" size="grow" maxHeight="100%">
+        <AppPartner displayAs={isLandscape ? 'side' : 'full'} />
       </Grid>
     );
   }
@@ -42,14 +43,33 @@ const Layout: React.FC = () => {
   function renderContent() {
     return (
       <Grid
-        alignItems={isWide ? "center" : "flex-end"}
+        alignItems={isLandscape ? "center" : "flex-end"}
         display="flex"
         padding="20px"
-        size={isWide ? 5 : 12}
+        size={isLandscape ? 5 : 12}
+        maxHeight="100%"
       >
-        <Stack spacing={2} width="100%">
+        <Stack
+          justifyContent="center"
+          spacing={2}
+          height="100%"
+          width="100%"
+          maxHeight="100%"
+        >
           <AppNav />
-          <Outlet />
+          <Paper
+            elevation={5}
+            sx={{
+              borderRadius: 3,
+              overflow: 'hidden',
+              width: '100%',
+              maxHeight: '100%'
+            }}
+          >
+            <Container sx={{ display: 'flex', maxHeight: '100%', paddingY: 3 }}>
+              <Outlet />
+            </Container>
+          </Paper>
         </Stack>
       </Grid>
     );
@@ -59,8 +79,9 @@ const Layout: React.FC = () => {
     <Container disableGutters sx={{ display: 'flex', height: '100%' }}>
       <Grid
         container
-        direction={isWide ? "row-reverse" : "column"}
+        direction={isLandscape ? "row-reverse" : "column"}
         flexGrow={1}
+        maxHeight="100%"
       >
         {renderPartner()}
         {renderContent()}
